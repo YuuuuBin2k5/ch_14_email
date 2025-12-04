@@ -5,6 +5,9 @@
         <group>
             <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/.gitignore</file>
             <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/Dockerfile</file>
+            <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/java/murach/email/EmailListServlet.java</file>
+            <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/java/murach/util/MailUtilGmail.java</file>
+            <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/web/email.jsp</file>
         </group>
     </open-files>
 </project-private>
