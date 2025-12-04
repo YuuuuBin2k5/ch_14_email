@@ -31,7 +31,7 @@
         <div class="success-card" style="max-width: 400px; width: 90%;"> 
             <h1>Send Email</h1>
             
-            <p class="subtitle">Hãy Nhập Gmail mà bạn muốn gửi đến.</p>
+            <p class="subtitle">Hãy Nhập Gmail mà bạn muốn gửi đến. <br> Lưu ý thư được chuyển qua mục QUẢNG CÁO or THƯ RÁC</p>
             
             <p style="color: #e74c3c; font-weight: bold; min-height: 20px; font-size: 0.9rem;">
                 ${message}
