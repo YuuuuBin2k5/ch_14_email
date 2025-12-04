@@ -1,8 +1,5 @@
 package murach.data;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -100,30 +97,17 @@ public class UserDB {
         }
     }
     
-    public static boolean emailExists(String email) {
+   public static boolean emailExists(String email) {
+        // Kiểm tra đầu vào
         if (email == null || email.trim().isEmpty()) {
             return false;
         }
 
-        ConnectionPool pool = ConnectionPool.getInstance();
-        java.sql.Connection connection = pool.getConnection();
-        if (connection == null) {
-            System.err.println("LỖI CHECK EMAIL: Không có kết nối Database.");
-            return false; // hoặc ném exception tuỳ design
-        }
-
-        String query = "SELECT 1 FROM users WHERE email = ? LIMIT 1";
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, email);
-            try (ResultSet rs = ps.executeQuery()) {
-                return rs.next();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        } finally {
-            pool.freeConnection(connection);
-        }
+        // Sử dụng lại phương thức selectUser đã có sẵn
+        User u = selectUser(email);
+        
+        // Nếu u khác null nghĩa là tìm thấy -> Email đã tồn tại
+        return u != null;
     }
 
 }

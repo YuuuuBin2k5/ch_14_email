@@ -8,6 +8,11 @@
             <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/java/murach/email/EmailListServlet.java</file>
             <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/java/murach/util/MailUtilGmail.java</file>
             <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/web/email.jsp</file>
+            <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/conf/persistence.xml</file>
+            <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/java/murach/admin/UsersServlet.java</file>
+            <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/java/murach/data/UserDB.java</file>
+            <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/java/murach/sql/DBUtil.java</file>
+            <file>file:/C:/Users/Admin/Desktop/LapTrinhWeb-Java/ch_14_email/src/java/murach/data/ConnectionPool.java</file>
         </group>
     </open-files>
 </project-private>
