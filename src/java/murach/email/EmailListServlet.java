@@ -1,0 +1,102 @@
+package murach.email;
+
+import java.io.IOException;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.mail.MessagingException; // Import thư viện mail
+
+import murach.business.User;
+import murach.data.UserDB;
+import murach.util.MailUtilGmail;
+ // Import class gửi mail
+
+
+@WebServlet(name = "EmailListServlet", urlPatterns = {"/emailList"})
+public class EmailListServlet extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        String url = "/email.jsp";
+        String message = "";
+        
+        // Lấy action hiện tại
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "join"; // Mặc định là join
+        }
+
+        // Xử lý các action
+        if (action.equals("join")) {
+            url = "/email.jsp"; 
+        } 
+        else if (action.equals("add")) {
+            // 1. Lấy dữ liệu từ form
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String email = request.getParameter("email");
+
+            User user = new User(firstName, lastName, email);
+
+            // 2. KIỂM TRA TRÙNG LẶP (Logic từ file cũ của bạn)
+            if (UserDB.emailExists(email)) {
+                message = "This email address already exists.<br>" +
+                          "Please enter another email address.";
+                url = "/email.jsp"; // Quay lại trang nhập để báo lỗi
+            } 
+            else {
+                // 3. NẾU KHÔNG TRÙNG -> LƯU VÀO DB
+                UserDB.insert(user);
+                
+                // 4. GỬI EMAIL (Logic gửi mail)
+                String to = email;
+                String from = "daonguyennhatanh0910@gmail.com"; 
+                String subject = "Welcome to our email list";
+                String body = "Dear " + firstName + ",\n\n"
+                        + "Thanks for joining our email list. "
+                        + "We'll make sure to send you announcements about new products and promotions.\n"
+                        + "Have a great day!\n\n"
+                        + "Mike Murach & Associates";
+                
+                boolean isBodyHTML = false;
+
+                try {
+                    // --- THÊM DÒNG NÀY ĐỂ KIỂM TRA ---
+                    System.out.println("============================================");
+                    System.out.println("DEBUG: ĐANG GỌI MAIL UTIL GMAIL (BREVO)...");
+                    System.out.println("Email: " + email);
+                    System.out.println("============================================");
+                    // ----------------------------------
+                    
+                    MailUtilGmail.sendMail(to, from, subject, body, isBodyHTML);
+                    url = "/thanks.jsp"; // Gửi thành công thì sang trang cảm ơn
+                } catch (MessagingException e) {
+                    // Nếu lỗi gửi mail thì vẫn báo lỗi nhưng đã lưu DB rồi
+                    message = "ERROR: Unable to send email. " + e.getMessage();
+                    this.log("Unable to send email: " + message);
+                    // Có thể chọn về lại trang email hoặc vẫn sang thanks tùy bạn, ở đây mình giữ ở trang hiện tại để hiện lỗi
+                }
+            }
+            
+            // Đặt các thuộc tính để hiển thị bên JSP
+            request.setAttribute("user", user);
+            request.setAttribute("message", message);
+        }
+        
+        // Chuyển hướng
+        getServletContext()
+            .getRequestDispatcher(url)
+            .forward(request, response);
+    }
+    
+    // Hỗ trợ cả phương thức GET (gọi lại doPost)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doPost(request, response);
+    }
+}
